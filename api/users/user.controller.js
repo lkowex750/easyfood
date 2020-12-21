@@ -1,4 +1,4 @@
-const {create,getUsers} = require("./user.service")
+const {create,getUsers,getUserbyID} = require("./user.service")
 const { genSaltSync, hashSync} = require('bcrypt')
 
 module.exports ={
@@ -30,6 +30,26 @@ module.exports ={
                 success: 1,
                 data : results
             })
+        })
+    },
+    getUserbyID: (req,res) =>{
+        const id = req.params.id
+        getUserbyID(id,(err, results)=>{
+            if (err){
+                console.log(err)
+                return
+            }
+            if (!results){
+                return res.json({
+                    success: 0,
+                    message: "Record not found"
+                })
+            }
+            return res.json({
+                success: 1,
+                data : results
+            })
+
         })
     }
 

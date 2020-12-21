@@ -29,5 +29,13 @@ module.exports = {
             }
             return callback(null,results)
         })
+    },
+    getUserbyID: (id, callback)=>{
+        pool.query('SELECT * FROM user WHERE user_ID = ?',[id],(error, results, fields)=> {
+            if (error){
+                return callback(error)
+            }
+            return callback(null, results[0])
+        })
     }
 }
