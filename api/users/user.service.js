@@ -37,5 +37,16 @@ module.exports = {
             }
             return callback(null, results[0])
         })
+    },
+
+    getUserbyUsername: (username, callback)=>{
+        pool.query("SELECT * FROM user WHERE username = ?",[username],(error, results,fields) => {
+            if (error){
+                return callback(error)
+            }
+            return callback(null, results[0])
+        })
     }
+
+    
 }
