@@ -1,5 +1,6 @@
 const {create,getUsers,getUserbyID,getUserbyUsername} = require("./user.service")
 const { genSaltSync, hashSync, compareSync} = require('bcrypt')
+const e = require("express")
 
 module.exports ={
     createUser: (req, res)=>{
@@ -20,11 +21,18 @@ module.exports ={
             })
         })
     },
+
     getUsers: (req,res)=>{
         getUsers((err, results)=> {
             if (err){
                 console.log(err)
                 return
+            }
+            if(results == ""){
+                return res.json({
+                    success: 999,
+                    data : "True"
+                })
             }
             return res.json({
                 success: 1,
@@ -32,6 +40,7 @@ module.exports ={
             })
         })
     },
+
     getUserbyID: (req,res) =>{
         const id = req.params.id
         getUserbyID(id,(err, results)=>{
@@ -88,7 +97,6 @@ module.exports ={
             }
             
         })
-
 
     }
 
