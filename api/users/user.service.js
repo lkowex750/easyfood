@@ -1,5 +1,6 @@
 const pool = require("../../config/database")
-const { genSaltSync, hashSync, compare } = require('bcrypt')
+const { genSaltSync, hashSync, compare, compareSync } = require('bcrypt')
+
 
 
 module.exports = {
@@ -91,9 +92,9 @@ module.exports = {
         })
     },*/
 
-    login: (req, res) => {
+       login:  (req, res) =>   {
         let body = req.body
-        pool.query("SELECT * FROM user WHERE username = ? ", [body.username], (error, results, fields) => {
+          pool.query("SELECT * FROM user WHERE username = ? ", [body.username], async (error, results, fields) =>  {
             if (error) {
                 return res.json({
                     success: 0,
@@ -106,18 +107,22 @@ module.exports = {
                     message: "invalid username or password"
                 })
             }
-            const checkpass = compare(body.password, results.password)
-            if (!checkpass) {
+            
+            
+            const checkpass = await compare(body.password, results[0].password)
+            //console.log(checkpass)
+            if(!checkpass){
                 return res.json({
                     success: 0,
-                    message: 'invalid password'
+                    message: "invalid password"
                 })
-            } else {
+            }else {
                 return res.json({
                     success: 1,
                     data: results[0]
                 })
             }
+            
         })
     }
 
