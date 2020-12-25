@@ -18,14 +18,14 @@ module.exports = {
         const salt = genSaltSync(10)
         body.password = hashSync(body.password, salt)
         pool.query(
-            "INSERT INTO `user` ( `username`, `password`, `fullName`, `lastName`, `status`, `img_profile`) VALUES (?, ?, ?, ?, ?, ?)",
+            "INSERT INTO `user` (`user_ID`, `username`, `password`, `firstName`, `lastName`, `status`, `profile_img`) VALUES (NULL, ?, ?, ?, ?, ?, ?)",
             [
                 body.username,
                 body.password,
-                body.fullName,
+                body.firstName,
                 body.lastName,
                 body.status,
-                body.img_profile
+                body.profile_img
             ],
             (error, results, fields) => {
                 if (error) {
